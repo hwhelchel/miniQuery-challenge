@@ -134,8 +134,33 @@ var EventDispatcher = (function(S){
     }
   }
 
-
-
-
-
 }(SweetSelector))
+
+// config = {
+//   url: '/',
+//   type: 'GET',
+//   success: function(){
+//     console.log('success');
+//   },
+//   fail: function(){
+//     console.log('fail');
+//   }
+// }
+
+var AjaxWrapper = (function(){
+
+  var _request = function(config){
+    var req = new XMLHttpRequest();
+    // debugger;
+    req.addEventListener("load", config.success);
+    req.addEventListener("error", config.fail);
+    req.open(config.type, config.url, true);
+    req.send();
+  }
+
+  return {
+    request: function(config){
+      _request(config);
+    }
+  }
+}())
