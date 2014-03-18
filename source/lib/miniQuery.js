@@ -61,12 +61,38 @@ var DOM = (function(S){
     }
   }
 
+  var _addClass = function(selected, klass){
+    if (selected.length){
+      for(i=0; i < selected.length; i++){
+        selected[i].className += (" " + klass);
+      }
+    } else {
+      selected.className += (" " + klass);
+    }
+  }
+
+  var _removeClass = function(selected, klass){
+    if (selected.length){
+      for(i=0; i < selected.length; i++){
+        selected[i].className = selected[i].className.replace(klass,"");
+      }
+    } else {
+      selected.className = selected.className.replace(klass,"");
+    }
+  }
+
   return {
     hide: function(selection){
       _hide(S.select(selection), selection);
     },
     show: function(selection){
       _show(S.select(selection), selection);
+    },
+    addClass: function(selection, klass){
+      _addClass(S.select(selection), klass);
+    },
+    removeClass: function(selection, klass){
+      _removeClass(S.select(selection), klass);
     }
   }
 
