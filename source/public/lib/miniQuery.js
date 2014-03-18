@@ -1,7 +1,6 @@
 /*!
  * minQuery
  */
-
 var SweetSelector = (function(){
 
   var _IdSelector = function(id){
@@ -159,8 +158,41 @@ var AjaxWrapper = (function(){
   }
 
   return {
-    request: function(config){
+    ajax: function(config){
       _request(config);
     }
   }
 }())
+
+var miniQuery = (function(D, E, A, S){
+  var Options = function(selection) {
+    this.hide = function() {
+      D.hide(selection);
+    }
+    this.show = function() {
+      D.show(selection);
+    }
+    this.addClass = function(klass) {
+      D.addClass(selection, klass);
+    }
+    this.removeClass = function(klass) {
+      D.removeClass(selection, klass);
+    }
+    this.on = function(event, listener) {
+      E.on(selection, event, listener);
+    }
+    this.trigger = function(event) {
+      E.trigger(selection, event);
+    }
+    return S.select(selection);
+  }
+
+  var Tool = function(selection){
+    return new Options(selection);
+  }
+  Tool.ajax = function(config){
+    A.ajax(config);
+  }
+  return Tool;
+
+}(DOM, EventDispatcher, AjaxWrapper, SweetSelector))
