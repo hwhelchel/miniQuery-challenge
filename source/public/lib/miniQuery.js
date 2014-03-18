@@ -195,4 +195,7 @@ var miniQuery = (function(D, E, A, S){
   }
   return Tool;
 
-}(DOM, EventDispatcher, AjaxWrapper, SweetSelector))
+}(DOM, EventDispatcher, AjaxWrapper, SweetSelector));
+
+var $ = miniQuery;
+
