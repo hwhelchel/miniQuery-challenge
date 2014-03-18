@@ -97,3 +97,45 @@ var DOM = (function(S){
   }
 
 }(SweetSelector))
+
+
+var EventDispatcher = (function(S){
+
+  var _eventHolder = {};
+
+  var _makeEvent = function(selection, eventString, callback){
+    _eventHolder[eventString] = new Event(eventString);
+    if (selection.length){
+      for(i=0; i < selection.length; i++){
+        selection[i].addEventListener(eventString, callback);
+      }
+    } else {
+      selection.addEventListener(eventString, callback);
+    }
+  }
+
+  var _triggerEvent = function(selection, eventString){
+    if (selection.length){
+      for(i=0; i < selection.length; i++){
+        selection[i].dispatchEvent(_eventHolder[eventString]);
+      }
+    } else {
+      selection.dispatchEvent(_eventHolder[eventString]);
+    }
+  }
+
+
+  return {
+    on: function(elem, event, callback){
+      _makeEvent(S.select(elem), event, callback);
+    },
+    trigger: function(elem, event){
+      _triggerEvent(S.select(elem),event);
+    }
+  }
+
+
+
+
+
+}(SweetSelector))
