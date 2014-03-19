@@ -1,6 +1,3 @@
-/*!
- * minQuery
- */
 var SweetSelector = (function(){
 
   var _IdSelector = function(id){
@@ -135,22 +132,10 @@ var EventDispatcher = (function(S){
 
 }(SweetSelector))
 
-// config = {
-//   url: '/',
-//   type: 'GET',
-//   success: function(){
-//     console.log('success');
-//   },
-//   fail: function(){
-//     console.log('fail');
-//   }
-// }
-
 var AjaxWrapper = (function(){
 
   var _request = function(config){
     var req = new XMLHttpRequest();
-    // debugger;
     req.addEventListener("load", config.success);
     req.addEventListener("error", config.fail);
     req.open(config.type, config.url, true);
@@ -166,25 +151,47 @@ var AjaxWrapper = (function(){
 
 var miniQuery = (function(D, E, A, S){
   var Options = function(selection) {
+    var opt = this;
+
+    this._makeArrayLike = function(){
+      opt.splice = function(){};
+      var sel = S.select(selection);
+      if (sel.length){
+        for (i=0; i < sel.length; i++) {
+          opt[i] = sel[i];
+          opt.length = i+1;
+        }
+      } else {
+        opt[0] = sel;
+        opt.length = 1;
+      }
+    }
+    this._makeArrayLike();
+
     this.hide = function() {
       D.hide(selection);
+      return miniQuery(selection);
     }
     this.show = function() {
       D.show(selection);
+      return miniQuery(selection);
     }
     this.addClass = function(klass) {
       D.addClass(selection, klass);
+      return miniQuery(selection);
     }
     this.removeClass = function(klass) {
       D.removeClass(selection, klass);
+      return miniQuery(selection);
     }
     this.on = function(event, listener) {
       E.on(selection, event, listener);
+      return miniQuery(selection);
     }
     this.trigger = function(event) {
       E.trigger(selection, event);
+      return miniQuery(selection)
     }
-    return S.select(selection);
   }
 
   var Tool = function(selection){
